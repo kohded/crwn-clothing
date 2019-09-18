@@ -19,7 +19,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   // documentRef perform CRUD; set(), get(), update(), delete(). collectionRef perform add()
   const userRef = firestore.doc(`users/${userAuth.uid}`);
-  // Get snapshotObject from the referenceObject using .get(). ie. documentRef.get() or collectionRef.get()
+  // Get snapshotObject from the referenceObject using .get(). ie. documentRef.get() or
+  // collectionRef.get()
   const snapShot = await userRef.get();
 
   if (!snapShot.exists) {
