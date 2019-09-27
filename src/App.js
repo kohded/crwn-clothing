@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/header/header';
 import { auth, createUserProfileDocument } from './firebase/utils';
 import Home from './pages/home/home';
@@ -41,18 +41,26 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/shop" component={Shop} />
-          <Route path="/signin" component={SignInAndSignUp} />
+          <Route
+            exact
+            path="/signin"
+            render={() => (this.props.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />)}
+          />
         </Switch>
       </>
     );
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
 });
 
 export default connect(
-  null,
-  mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
